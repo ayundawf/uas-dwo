@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<Schema name="dwadventure">
+<!--
+  == This software is subject to the terms of the Eclipse Public License v1.0
+  == Agreement, available at the following URL:
+  == http://www.eclipse.org/legal/epl-v10.html.
+  == You must accept the terms of that agreement to use this software.
+  ==
+  == Copyright (C) 2000-2005 Julian Hyde
+  == Copyright (C) 2005-2011 Pentaho and others
+  == All Rights Reserved.
+  -->
+
+<!-- Shared dimensions -->
+
+  
+
+<!-- Sales -->
+<Cube name="Jual" defaultMeasure="Amount">
+  <!-- Use annotations to provide translations of this cube's caption and
+       description into German and French. Use of annotations in this manner is
+       experimental and unsupported; just for testing right now. -->
+  
+  <Table name="fakta_sales"/>
+
+    
+  <Dimension name="dim_territory" foreignKey ="TerritoryID">
+      <Hierarchy hasAll="true" allMemberName="All Territory" primaryKey ="TerritoryID">
+      <Table name="dim_territory"/>
+      <Level name="Country" column="Country"/>
+      <Level name="City" column="City"/>
+      </Hierarchy>
+      
+  </Dimension>
+
+ 
+  <Dimension name="dim_time" foreignKey="TimeID">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="TimeID">
+      <Table name="dim_time" />
+      <Level name="Year" column="Year" type="Numeric" uniqueMembers="true"
+          levelType="TimeYears"/>
+      <Level name="Quarter" column="Quarter" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="Month" column="Month" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="FullDate" column="FullDate" uniqueMembers="false" type="Numeric"
+          levelType="TimeDays"/>
+    </Hierarchy>
+   
+  </Dimension>
+
+  <Dimension name="dim_product" foreignKey = "ProductID">
+    <Hierarchy hasAll="true" allMemberName="All Produk" primaryKey ="ProductID">
+      <Table name="dim_product" />
+      <Level name="Category" column="ProductCategory"/>
+      <Level name="Product Name" column="ProductName" />
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="dim_customer" foreignKey="CustomerID">
+    
+    <Hierarchy  hasAll  ="true" allMemberName="All Customer" primaryKey  = "CustomerID">
+        <Table name="dim_customer"/>
+        <Level name="Customer Name" column="CustomerName"/>
+    </Hierarchy>
+  </Dimension>
+    
+  
+
+  <Measure name="Total_Sales" column="Total_Sales" aggregator="sum"
+      formatString="Standard"/>
+  <Measure name="Quantity" column="Quantity" aggregator="sum"
+      formatString="Standard"/>
+  
+  
+  
+</Cube>
+
+
+
+</Schema>
